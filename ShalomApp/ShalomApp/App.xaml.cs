@@ -1,18 +1,19 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace ShalomApp
+﻿namespace ShalomApp
 {
+    using Xamarin.Forms;
+    using Views;
     public partial class App : Application
     {
+        #region Constructores
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            this.MainPage = new NavigationPage( new EnviarAlertaPage());
         }
+        #endregion
 
+        #region Metodos
         protected override void OnStart()
         {
         }
@@ -23,6 +24,7 @@ namespace ShalomApp
 
         protected override void OnResume()
         {
-        }
+        } 
+        #endregion
     }
 }

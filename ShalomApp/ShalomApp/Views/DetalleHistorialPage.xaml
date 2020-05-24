@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ShalomApp.Views.DetalleHistorialPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="10,20,10,5">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="Center"
+                    Text="Detalle Historial Médico">
+                </Label>
+                <Label
+                    Text="Daniel Antonio Marroquin Navichoque">
+                </Label>
+                <Label
+                    Text="Fecha:">
+                </Label>
+                <DatePicker
+                    Format="D">
+                </DatePicker>
+                <Label
+                    Text="Hora:">
+                </Label>
+                <TimePicker
+                    Format="T">
+                </TimePicker>
+                <Label
+                    Text="Síntomas:">
+                </Label>
+                <Editor
+                    IsReadOnly="True"
+                    AutoSize="TextChanges">
+                </Editor>
+                <Label
+                    Text="Diagnóstico:">
+                </Label>
+                <Label
+                    Text="Tratamiento:">
+                </Label>
+                <Editor
+                    IsReadOnly="True"
+                    AutoSize="TextChanges">
+                </Editor>
+                <Button
+                    BackgroundColor="LightBlue"
+                    Text="Actualizar">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

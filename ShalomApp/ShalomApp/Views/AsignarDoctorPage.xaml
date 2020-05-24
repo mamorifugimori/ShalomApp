@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ShalomApp.Views.AsignarDoctorPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="10,20,10,5">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="Center"
+                    Text="Asignar Doctor">
+                </Label>
+                <Label
+                    Text="Paciente:">
+                </Label>
+                <Label
+                    Text="Daniel Antonio Marroquin Navichoque">
+                </Label>
+                <Label
+                    Text="Datos del responsable">
+                </Label>
+                <Label
+                    Text="DPI:">
+                </Label>
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="Ingrese DPI">
+                </Entry>
+                <Label
+                    Text="Nombre:">
+                </Label>
+                <Entry
+                    Placeholder="Ingrese nombre">
+                </Entry>
+                <Label
+                    Text="Apellido:">
+                </Label>
+                <Entry
+                    Placeholder="Ingrese apellido">
+                </Entry>
+                <Label
+                    Text="Asignacion">
+                </Label>
+                <Label
+                    Text="Especialidad">
+                </Label>
+                <Picker
+                    Title="Seleccionar">
+                    <Picker.Items>
+                        <x:String>Medicina General</x:String>
+                        <x:String>Pediatria</x:String>
+                        <x:String>Ginecologia</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label
+                    Text="Médico:">
+                </Label>
+                <Picker
+                    Title="Seleccionar">
+                    <Picker.Items>
+                        <x:String>Luis Marroquin</x:String>
+                        <x:String>Carlos Pinto</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
