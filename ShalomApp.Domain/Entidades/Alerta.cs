@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShalomApp.Domain.Entidades
+﻿namespace ShalomApp.Domain.Entidades
 {
-    class Alerta
+    public class Alerta
     {
         public int IdAlerta { get; set; }
         public int IdCita { get; set; }

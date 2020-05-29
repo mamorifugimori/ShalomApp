@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-
-using wsShalom.Datos;
-
-using System.Data;
-
-namespace wsShalom
+﻿namespace wsShalom
 {
+    using System.Web.Services;
+
+    using System.Data;
+    using ShalomApp.Domain.Entidades;
+
+
     /// <summary>
     /// Descripción breve de wsShalom
     /// </summary>
@@ -20,20 +16,35 @@ namespace wsShalom
     // [System.Web.Script.Services.ScriptService]
     public class wsShalom : System.Web.Services.WebService
     {
-        Consultar consultas;
+        Especialidad especialidad;
+        Doctor doctor;
 
         [WebMethod]
         public DataSet ConsultaEspecialidad()
         {
-            consultas = new Consultar();
-            return consultas.obtenerEspecialidades();
+            especialidad = new Especialidad();
+            return especialidad.ConsultaEspecialidades();
+        }
+
+        [WebMethod]
+        public string AgregaEspecialidad(string prEspecialidad)
+        {
+            especialidad = new Especialidad
+            {
+                Descripcion = prEspecialidad
+            };
+
+            if (especialidad.AgregaEspecialidad())
+                return "agregado correctamente";
+            else
+                return "algo salió mal en la inserción";
         }
 
         [WebMethod]
         public DataSet ConsultaDoctor()
         {
-            consultas = new Consultar();
-            return consultas.obtenerDoctores();
+            doctor = new Doctor();
+            return doctor.ConsultaDoctores();
         }
     }
 }

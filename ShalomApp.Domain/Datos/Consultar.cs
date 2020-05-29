@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-using System.Data;
-using MySql.Data.MySqlClient;
-
-namespace wsShalom.Datos
+﻿namespace ShalomApp.Domain.Datos
 {
-    public class Consultar
+    using System.Data;
+    using MySql.Data.MySqlClient;
+
+    class Consultar
     {
         Conexion conexion;
         MySqlConnection objConn;
@@ -17,9 +12,9 @@ namespace wsShalom.Datos
             conexion = new Conexion();
         }
 
-        public DataSet obtenerEspecialidades()
+        public DataSet ObtenerEspecialidades()
         {
-            objConn = conexion.obtenerConexion();
+            objConn = conexion.ObtenerConexion();
             DataSet ds;
             MySqlDataAdapter da;
             try
@@ -39,9 +34,9 @@ namespace wsShalom.Datos
             }
         }
 
-        public DataSet obtenerDoctores()
+        public DataSet ObtenerDoctores()
         {
-            objConn = conexion.obtenerConexion();
+            objConn = conexion.ObtenerConexion();
             DataSet ds;
             MySqlDataAdapter da;
             try

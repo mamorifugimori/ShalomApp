@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShalomApp.Domain.Entidades
+﻿namespace ShalomApp.Domain.Entidades
 {
-    class Login
+    public class Login
     {
         public int IdLogin { get; set; }
         public string Alias { get; set; }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShalomApp.Domain.Entidades
+﻿namespace ShalomApp.Domain.Entidades
 {
-    class Paciente
+    using System;
+
+    public class Paciente
     {
         public int IdPaciente { get; set; }
         public string Documento { get; set; }
