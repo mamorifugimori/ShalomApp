@@ -44,7 +44,9 @@
   <ItemGroup>
     <Compile Include="Datos\Conexion.cs" />
     <Compile Include="Datos\Consultar.cs" />
+    <Compile Include="Datos\Eliminar.cs" />
     <Compile Include="Datos\Insertar.cs" />
+    <Compile Include="Datos\Modificar.cs" />
     <Compile Include="Entidades\Alerta.cs" />
     <Compile Include="Entidades\Asignacion.cs" />
     <Compile Include="Entidades\DetalleCita.cs" />

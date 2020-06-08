@@ -3,22 +3,24 @@
     using MySql.Data.MySqlClient;
     using System;
 
-    class Insertar
+    class Modificar
     {
         readonly Conexion conexion;
         MySqlConnection objConn;
-        public Insertar()
+        public Modificar()
         {
             conexion = new Conexion();
         }
 
-        public bool AgregarEspecialidad(string descripcion)
+        public bool ModificarDiagnostico(int idDiagnostico, string descripcion)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand(String.Format("insert into especialidad(descripcion) values ('{0}')", descripcion))
+            MySqlCommand comando = new MySqlCommand("update diagnostico set descripcion = @descripcion where iddiagnostico = @iddiagnostico")
             {
                 Connection = objConn
             };
+            comando.Parameters.AddWithValue("@descripcion", descripcion);
+            comando.Parameters.AddWithValue("@iddiagnostico", idDiagnostico);
             try
             {
                 comando.Connection.Open();
@@ -33,13 +35,17 @@
             }
         }
 
-        public bool AgregarMedicinaNatural(int idDiagnostico, DateTime fecha, string tratamiento, string observaciones)
+        public bool ModificarMedNatural(int idMedNatural, int idDiagnostico, string tratamiento, string observaciones)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand(String.Format("insert into mednatural(iddiagnostico, fecha, tratamiento, observaciones) values ({0},'{1}','{2}','{3}')", idDiagnostico,fecha.ToString("yyyy-MM-dd"),tratamiento,observaciones))
+            MySqlCommand comando = new MySqlCommand("update mednatural set iddiagnostico = @iddiagnostico, tratamiento = @tratamiento, observaciones = @observaciones where idmednatural = @idmednatural")
             {
                 Connection = objConn
             };
+            comando.Parameters.AddWithValue("@iddiagnostico", idDiagnostico);
+            comando.Parameters.AddWithValue("@tratamiento", tratamiento);
+            comando.Parameters.AddWithValue("@observaciones", observaciones);
+            comando.Parameters.AddWithValue("@idmednatural", idMedNatural);
             try
             {
                 comando.Connection.Open();
@@ -54,13 +60,15 @@
             }
         }
 
-        public bool AgregarDiagnostico(string descripcion)
+        public bool ModificarEspecialidad(int idEspecialidad, string descripcion)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand(String.Format("insert into diagnostico(descripcion) values ('{0}')", descripcion))
+            MySqlCommand comando = new MySqlCommand("update especialidad set descripcion = @descripcion where idespecialidad = @idespecialidad")
             {
                 Connection = objConn
             };
+            comando.Parameters.AddWithValue("@descripcion", descripcion);
+            comando.Parameters.AddWithValue("@idespecialidad", idEspecialidad);
             try
             {
                 comando.Connection.Open();
@@ -75,13 +83,17 @@
             }
         }
 
-        public bool AgregarDoctor(int idDoctor, int idEspecialidad, string nombre, string apellido)
+        public bool ModificarDoctor(int idDoctor, int idEspecialidad, string nombre, string apellido)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand(String.Format("insert into doctor(iddoctor, idespecialidad, nombre, apellido) values ({0},{1},'{2}','{3}')", idDoctor, idEspecialidad, nombre, apellido))
+            MySqlCommand comando = new MySqlCommand("update doctor set idespecialidad = @idespecialidad, nombre = @nombre, apellido = @apellido where iddoctor = @iddoctor")
             {
                 Connection = objConn
             };
+            comando.Parameters.AddWithValue("@idespecialidad", idEspecialidad);
+            comando.Parameters.AddWithValue("@nombre", nombre);
+            comando.Parameters.AddWithValue("@apellido", apellido);
+            comando.Parameters.AddWithValue("@iddoctor", idDoctor);
             try
             {
                 comando.Connection.Open();
@@ -96,112 +108,17 @@
             }
         }
 
-        public bool AgregarParamedico(string documento, string nombre, string apellido, DateTime fecha, string nivelExpertise)
+        public bool ModificarParamedico(int idParamedico, string documento, string nombre, string apellido, string nivelExpertise)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into paramedico(documento, nombre, apellido, fechaingreso, nivelexpertise) values (@documento,@nombre,@apellido,@fechaingreso,@nivelExpertise)")
+            MySqlCommand comando = new MySqlCommand("update paramedico set documento = @documento, nombre = @nombre, apellido = @apellido, nivelexpertise = @nivelExpertise where idparamedico = @idparamedico")
             {
                 Connection = objConn
             };
             comando.Parameters.AddWithValue("@documento", documento);
             comando.Parameters.AddWithValue("@nombre", nombre);
             comando.Parameters.AddWithValue("@apellido", apellido);
-            comando.Parameters.AddWithValue("@fechaingreso", fecha.ToString("yyyy-MM-dd"));
             comando.Parameters.AddWithValue("@nivelExpertise", nivelExpertise);
-            try
-            {
-                comando.Connection.Open();
-                comando.ExecuteNonQuery();
-                comando.Connection.Close();
-                return true;
-            }
-            catch (MySqlException)
-            {
-                comando.Connection.Close();
-                return false;
-            }
-        }
-
-        public bool AgregarPerfil(string descripcion)
-        {
-            objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into perfil(descripcion) values (@descripcion)")
-            {
-                Connection = objConn
-            };
-            comando.Parameters.AddWithValue("@descripcion", descripcion);
-            try
-            {
-                comando.Connection.Open();
-                comando.ExecuteNonQuery();
-                comando.Connection.Close();
-                return true;
-            }
-            catch (MySqlException)
-            {
-                comando.Connection.Close();
-                return false;
-            }
-        }
-
-        public bool AgregarPantalla(int idPerfil, string nombrePantalla)
-        {
-            objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into pantalla(idperfil, pantalla) values (@idperfil, @pantalla)")
-            {
-                Connection = objConn
-            };
-            comando.Parameters.AddWithValue("@idperfil", idPerfil);
-            comando.Parameters.AddWithValue("@pantalla", nombrePantalla);
-            try
-            {
-                comando.Connection.Open();
-                comando.ExecuteNonQuery();
-                comando.Connection.Close();
-                return true;
-            }
-            catch (MySqlException)
-            {
-                comando.Connection.Close();
-                return false;
-            }
-        }
-
-        public bool AgregarLoginPaciente(int idPerfil, string alias, string password, int idPaciente)
-        {
-            objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into login(idperfil, alias, password, idpaciente) values (@idperfil, @alias, @password, @idpaciente)")
-            {
-                Connection = objConn
-            };
-            comando.Parameters.AddWithValue("@idperfil", idPerfil);
-            comando.Parameters.AddWithValue("@alias", alias);
-            comando.Parameters.AddWithValue("@password", password);
-            comando.Parameters.AddWithValue("@idpaciente", idPaciente);
-            try
-            {
-                comando.Connection.Open();
-                comando.ExecuteNonQuery();
-                comando.Connection.Close();
-                return true;
-            }
-            catch (MySqlException)
-            {
-                comando.Connection.Close();
-                return false;
-            }
-        }
-
-        public bool AgregarLoginParamedico(int idPerfil, string alias, string password, int idParamedico)
-        {
-            objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into login(idperfil, alias, password, idparamedico) values (@idperfil, @alias, @password, @idparamedico)")
-            {
-                Connection = objConn
-            };
-            comando.Parameters.AddWithValue("@idperfil", idPerfil);
-            comando.Parameters.AddWithValue("@alias", alias);
-            comando.Parameters.AddWithValue("@password", password);
             comando.Parameters.AddWithValue("@idparamedico", idParamedico);
             try
             {
@@ -217,10 +134,57 @@
             }
         }
 
-        public bool AgregarLoginDoctor(int idPerfil, string alias, string password, int idDoctor)
+        public bool ModificarPerfil(int idPerfil, string descripcion)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into login(idperfil, alias, password, iddoctor) values (@idperfil, @alias, @password, @iddoctor)")
+            MySqlCommand comando = new MySqlCommand("update perfil set descripcion = @descripcion where idperfil = @idperfil")
+            {
+                Connection = objConn
+            };
+            comando.Parameters.AddWithValue("@descripcion", descripcion);
+            comando.Parameters.AddWithValue("@idperfil", idPerfil);
+            try
+            {
+                comando.Connection.Open();
+                comando.ExecuteNonQuery();
+                comando.Connection.Close();
+                return true;
+            }
+            catch (MySqlException)
+            {
+                comando.Connection.Close();
+                return false;
+            }
+        }
+
+        public bool ModificarPantalla(int idPantalla, int idPerfil, string nombrePantalla)
+        {
+            objConn = conexion.ObtenerConexion();
+            MySqlCommand comando = new MySqlCommand("update pantalla set idperfil = @idperfil, pantalla = @pantalla where idpantalla = @idpantalla")
+            {
+                Connection = objConn
+            };
+            comando.Parameters.AddWithValue("@idperfil", idPerfil);
+            comando.Parameters.AddWithValue("@pantalla", nombrePantalla);
+            comando.Parameters.AddWithValue("@idpantalla", idPantalla);
+            try
+            {
+                comando.Connection.Open();
+                comando.ExecuteNonQuery();
+                comando.Connection.Close();
+                return true;
+            }
+            catch (MySqlException)
+            {
+                comando.Connection.Close();
+                return false;
+            }
+        }
+
+        public bool ModificarLogin(int idLogin, int idPerfil, string alias, string password, int idParamedico, int idDoctor, int idPaciente)
+        {
+            objConn = conexion.ObtenerConexion();
+            MySqlCommand comando = new MySqlCommand("update login set idperfil = @idperfil, alias = @alias, password = @password, idpaciente = case @idpaciente when 0 then null else @idpaciente end, iddoctor = case @iddoctor when 0 then null else @iddoctor end, idparamedico = case @idparamedico when 0 then null else @idparamedico end where idlogin = @idlogin")
             {
                 Connection = objConn
             };
@@ -228,6 +192,9 @@
             comando.Parameters.AddWithValue("@alias", alias);
             comando.Parameters.AddWithValue("@password", password);
             comando.Parameters.AddWithValue("@iddoctor", idDoctor);
+            comando.Parameters.AddWithValue("@idpaciente", idPaciente);
+            comando.Parameters.AddWithValue("@idparamedico", idParamedico);
+            comando.Parameters.AddWithValue("@idlogin", idLogin);
             try
             {
                 comando.Connection.Open();
@@ -242,10 +209,10 @@
             }
         }
 
-        public bool AgregarPaciente(string documento, string nombre, string apellido, DateTime fechaNacimiento, DateTime fechaIngreso)
+        public bool ModificarPaciente(int idPaciente, string documento, string nombre, string apellido, DateTime fechaNacimiento)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into paciente(documento, nombre, apellido, fechanacimiento, fechaingreso) values (@documento, @nombre, @apellido, @fechanacimiento, @fechaingreso)")
+            MySqlCommand comando = new MySqlCommand("update paciente set documento = @documento, nombre = @nombre, apellido = @apellido, fechanacimiento = @fechanacimiento where idpaciente = @idpaciente")
             {
                 Connection = objConn
             };
@@ -253,7 +220,7 @@
             comando.Parameters.AddWithValue("@nombre", nombre);
             comando.Parameters.AddWithValue("@apellido", apellido);
             comando.Parameters.AddWithValue("@fechanacimiento", fechaNacimiento.ToString("yyyy-MM-dd"));
-            comando.Parameters.AddWithValue("@fechaingreso", fechaIngreso.ToString("yyyy-MM-dd"));
+            comando.Parameters.AddWithValue("@idpaciente", idPaciente);
             try
             {
                 comando.Connection.Open();
@@ -268,18 +235,18 @@
             }
         }
 
-        public bool AgregarPacienteMenor(string nombre, string apellido, DateTime fechaNacimiento, DateTime fechaIngreso, int idResponsable)
+        public bool ModificarPacienteMenor(int idPaciente, string nombre, string apellido, DateTime fechaNacimiento, int idResponsable)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into paciente(nombre, apellido, fechanacimiento, fechaingreso, idresponsable) values (@nombre, @apellido, @fechanacimiento, @fechaingreso, @idresponsable)")
+            MySqlCommand comando = new MySqlCommand("update paciente set nombre = @nombre, apellido = @apellido, fechanacimiento = @fechanacimiento, idresponsable = @idresponsable where idpaciente = @idpaciente")
             {
                 Connection = objConn
             };
             comando.Parameters.AddWithValue("@nombre", nombre);
             comando.Parameters.AddWithValue("@apellido", apellido);
             comando.Parameters.AddWithValue("@fechanacimiento", fechaNacimiento.ToString("yyyy-MM-dd"));
-            comando.Parameters.AddWithValue("@fechaingreso", fechaIngreso.ToString("yyyy-MM-dd"));
             comando.Parameters.AddWithValue("@idresponsable", idResponsable);
+            comando.Parameters.AddWithValue("@idpaciente", idPaciente);
             try
             {
                 comando.Connection.Open();
@@ -294,45 +261,18 @@
             }
         }
 
-        public object AgregarHistMedico(string tipoHist, DateTime fecha, DateTime hora, int idPaciente)
+        public bool ModificarDetalleCita(int idDetalleCita, int idDoctor, int idDiagnostico, string sintomas, string tratamiento)
         {
-            object ultimoId;
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into histmedico(tipohist, fecha, hora, idpaciente) values (@tipohist, @fecha, @hora, @idpaciente);"
-                                                    + "select last_insert_id()")
+            MySqlCommand comando = new MySqlCommand("update detallecita set iddoctor = @iddoctor, iddiagnostico = @iddiagnostico, sintomas = @sintomas, tratamiento = @tratamiento where iddetallecita = @iddetallecita")
             {
                 Connection = objConn
             };
-            comando.Parameters.AddWithValue("@tipohist", tipoHist);
-            comando.Parameters.AddWithValue("@fecha", fecha.ToString("yyyy-MM-dd"));
-            comando.Parameters.AddWithValue("@hora", hora.ToString("HH:mm:ss"));
-            comando.Parameters.AddWithValue("@idpaciente", idPaciente);
-            try
-            {
-                comando.Connection.Open();
-                ultimoId = comando.ExecuteScalar();
-                comando.Connection.Close();
-                return ultimoId;
-            }
-            catch (MySqlException)
-            {
-                comando.Connection.Close();
-                return 0;
-            }
-        }
-
-        public bool AgregarDetalleCita(int idCita, int idDoctor, int idDiagnostico, string sintomas, string tratamiento)
-        {
-            objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into detallecita(idcita, iddoctor, iddiagnostico, sintomas, tratamiento) values (@idcita, @iddoctor, @iddiagnostico, @sintomas, @tratamiento)")
-            {
-                Connection = objConn
-            };
-            comando.Parameters.AddWithValue("@idcita", idCita);
             comando.Parameters.AddWithValue("@iddoctor", idDoctor);
             comando.Parameters.AddWithValue("@iddiagnostico", idDiagnostico);
             comando.Parameters.AddWithValue("@sintomas", sintomas);
             comando.Parameters.AddWithValue("@tratamiento", tratamiento);
+            comando.Parameters.AddWithValue("@iddetallecita", idDetalleCita);
             try
             {
                 comando.Connection.Open();
@@ -347,17 +287,16 @@
             }
         }
 
-        public bool AgregarAlerta(int idCita, string sintomas, string tratamiento, int uPaciente)
+        public bool ModificarAlertaAtendido(int idAlerta, string sintomas, string tratamiento)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into alerta(idcita, iddiagnostico, sintomas, tratamiento, estado, upaciente) values (@idcita, 1, @sintomas, @tratamiento, 'PENDIENTE', @upaciente)")
+            MySqlCommand comando = new MySqlCommand("update alerta set sintomas = @sintomas, tratamiento = @tratamiento, estado = 'ATENDIDO' where idalerta = @idalerta")
             {
                 Connection = objConn
             };
-            comando.Parameters.AddWithValue("@idcita", idCita);
             comando.Parameters.AddWithValue("@sintomas", sintomas);
             comando.Parameters.AddWithValue("@tratamiento", tratamiento);
-            comando.Parameters.AddWithValue("@upaciente", uPaciente);
+            comando.Parameters.AddWithValue("@idalerta", idAlerta);
             try
             {
                 comando.Connection.Open();
@@ -372,15 +311,39 @@
             }
         }
 
-        public bool AgregarAsignacion(int idPaciente, int idDoctor)
+        public bool ModificarAlertaEnCurso(int idAlerta, int idParamedico, int uParamedico)
         {
             objConn = conexion.ObtenerConexion();
-            MySqlCommand comando = new MySqlCommand("insert into asignacion(idpaciente, iddoctor) values (@idpaciente, @iddoctor)")
+            MySqlCommand comando = new MySqlCommand("update alerta set idparamedico = @idparamedico, uparamedico = @uparamedico, estado = 'EN CURSO' where idalerta = @idalerta")
             {
                 Connection = objConn
             };
-            comando.Parameters.AddWithValue("@idpaciente", idPaciente);
-            comando.Parameters.AddWithValue("@iddoctor", idDoctor);
+            comando.Parameters.AddWithValue("@idparamedico", idParamedico);
+            comando.Parameters.AddWithValue("@uparamedico", uParamedico);
+            comando.Parameters.AddWithValue("@idalerta", idAlerta);
+            try
+            {
+                comando.Connection.Open();
+                comando.ExecuteNonQuery();
+                comando.Connection.Close();
+                return true;
+            }
+            catch (MySqlException)
+            {
+                comando.Connection.Close();
+                return false;
+            }
+        }
+
+        public bool ModificarAlertaUParamedico(int idAlerta, int uParamedico)
+        {
+            objConn = conexion.ObtenerConexion();
+            MySqlCommand comando = new MySqlCommand("update alerta set uparamedico = @uparamedico where idalerta = @idalerta")
+            {
+                Connection = objConn
+            };
+            comando.Parameters.AddWithValue("@uparamedico", uParamedico);
+            comando.Parameters.AddWithValue("@idalerta", idAlerta);
             try
             {
                 comando.Connection.Open();
